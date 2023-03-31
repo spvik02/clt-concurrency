@@ -16,7 +16,7 @@ class ClientTest {
     }
 
     @Test
-    void checkClientListSizeShouldBeZero(){
+    void checkClientListSizeShouldBeZero() {
         try {
             client.removeAllFromList();
             client.shutdownExecutorWithAwait(1);
@@ -28,7 +28,7 @@ class ClientTest {
     }
 
     @Test
-    void checkAccumulatorShouldBeEqualToExpected(){
+    void checkAccumulatorShouldBeEqualToExpected() {
         int expectedAccumulator = 5050;
 
         try {

@@ -19,7 +19,7 @@ public class Client {
      * for executor
      *
      * @param server
-     * @param length length of the generated list
+     * @param length   length of the generated list
      * @param nThreads number of thread for ThreadPool
      */
     public Client(Server server, int length, int nThreads) {
@@ -47,7 +47,7 @@ public class Client {
             lock.lock();
             int randomIdx = ThreadLocalRandom.current().nextInt(0, list.size());
             value = list.remove(randomIdx);
-        }finally {
+        } finally {
             lock.unlock();
         }
         return server.processRequest(new Request(value));
@@ -55,10 +55,11 @@ public class Client {
 
     /**
      * Returns runnable that adds value from future response to accumulator.
+     *
      * @param future future response from the server
      * @return runnable
      */
-    private Runnable accumulate(Future<Response> future){
+    private Runnable accumulate(Future<Response> future) {
         return () -> {
             try {
                 accumulator.addAndGet(future.get().getValue());
@@ -70,13 +71,14 @@ public class Client {
 
     /**
      * Deletes all elements from list and calculate accumulator based on the server responses.
+     *
      * @throws ExecutionException
      * @throws InterruptedException
      */
     public void removeAllFromList() throws ExecutionException, InterruptedException {
         int length = list.size();
 
-        for (int i = 0; i < length; i++){
+        for (int i = 0; i < length; i++) {
             Future<Response> future = executor.submit(deleteRandomElement);
             executor.submit(accumulate(future));
         }
@@ -86,6 +88,7 @@ public class Client {
      * Initiates an orderly shutdown in which previously submitted tasks are executed, but no new tasks will be
      * accepted. Waits for previously submitted tasks to complete execution, or the timeout occurs, or the current
      * thread is interrupted, whichever happens first.
+     *
      * @param timeout timeout in minutes
      * @return true if this executor terminated and false if the timeout elapsed before termination
      * @throws InterruptedException
